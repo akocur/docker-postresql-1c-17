@@ -33,6 +33,10 @@ RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 # Переключение на пользователя postgres
 USER postgres
 
+RUN /opt/pgpro/1c-17/bin/pg_ctl -D /var/lib/pgpro/1c-17/data -o "-c listen_addresses=''" -w start && \
+    /opt/pgpro/1c-17/bin/psql --command "ALTER USER postgres WITH PASSWORD 'password';" && \
+    /opt/pgpro/1c-17/bin/pg_ctl -D /var/lib/pgpro/1c-17/data -m fast -w stop
+
 # Открытие порта PostgreSQL
 EXPOSE 5432
 
